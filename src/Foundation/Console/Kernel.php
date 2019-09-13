@@ -3,10 +3,30 @@
 namespace WeTyper\Foundation\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Bootstrap\BootProviders;
+use Illuminate\Foundation\Bootstrap\HandleExceptions;
+use Illuminate\Foundation\Bootstrap\RegisterFacades;
+use Illuminate\Foundation\Bootstrap\RegisterProviders;
+use Illuminate\Foundation\Bootstrap\SetRequestForConsole;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use WeTyper\Foundation\Bootstrap\LoadConfiguration;
 
 class Kernel extends ConsoleKernel
 {
+    /**
+     * The bootstrap classes for the application.
+     *
+     * @var array
+     */
+    protected $bootstrappers = [
+        LoadConfiguration::class,
+        HandleExceptions::class,
+        RegisterFacades::class,
+        SetRequestForConsole::class,
+        RegisterProviders::class,
+        BootProviders::class,
+    ];
+
     /**
      * The console commands provided by WeTyper.
      *
@@ -31,6 +51,6 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
     }
 }
