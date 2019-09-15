@@ -53,7 +53,7 @@ class LoadConfiguration extends BaseLoadConfiguration
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected function getConfigurationFiles(Application $app)
     {
@@ -66,7 +66,6 @@ class LoadConfiguration extends BaseLoadConfiguration
      * Get all of the configuration files in the given directory.
      *
      * @param string $configPath
-     *
      * @return array
      */
     protected function getConfigurationFilesInPath(string $configPath): array

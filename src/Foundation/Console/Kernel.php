@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Bootstrap\SetRequestForConsole;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use WeTyper\Foundation\Bootstrap\LoadConfiguration;
+use Illuminate\Console\Application as Artisan;
 
 class Kernel extends ConsoleKernel
 {
@@ -52,5 +53,23 @@ class Kernel extends ConsoleKernel
     protected function commands(): void
     {
         $this->load(__DIR__ . '/Commands');
+    }
+
+    /**
+     * Get the Artisan application instance.
+     *
+     * @return \Illuminate\Console\Application
+     */
+    protected function getArtisan()
+    {
+        if ($this->artisan !== null) {
+            return $this->artisan;
+        }
+
+        $artisan = new Artisan($this->app, $this->events, $this->app->version());
+        $artisan->setName('WeTyper');
+        $artisan->resolveCommands($this->commands);
+
+        return $this->artisan = $artisan;
     }
 }

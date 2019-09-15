@@ -30,11 +30,12 @@ class Application extends BaseApplication
     /**
      * Create a new WeTyper application instance.
      *
+     * @param string $corePath
      * @param string $basePath
      */
-    public function __construct(string $basePath = null)
+    public function __construct(string $corePath, string $basePath = null)
     {
-        $this->corePath = realpath(__DIR__.'/..');
+        $this->corePath = realpath($corePath);
 
         parent::__construct($basePath);
     }

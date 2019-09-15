@@ -9,7 +9,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'default' => env('CACHE_DRIVER', 'file'),
+    'default' => 'file',
 
     /*
     |--------------------------------------------------------------------------
@@ -40,15 +40,12 @@ return [
 
         'memcached' => [
             'driver'        => 'memcached',
-            'persistent_id' => env('MEMCACHED_PERSISTENT_ID'),
-            'sasl'          => [
-                env('MEMCACHED_USERNAME'),
-                env('MEMCACHED_PASSWORD'),
-            ],
+            'persistent_id' => '',
+            'sasl'          => [],
             'servers'       => [
                 [
-                    'host'   => env('MEMCACHED_HOST', '127.0.0.1'),
-                    'port'   => env('MEMCACHED_PORT', 11211),
+                    'host'   => '127.0.0.1',
+                    'port'   => 11211,
                     'weight' => 100,
                 ],
             ],
@@ -61,11 +58,11 @@ return [
 
         'dynamodb'  => [
             'driver'   => 'dynamodb',
-            'key'      => env('AWS_ACCESS_KEY_ID'),
-            'secret'   => env('AWS_SECRET_ACCESS_KEY'),
-            'region'   => env('AWS_DEFAULT_REGION', 'us-east-1'),
-            'table'    => env('DYNAMODB_CACHE_TABLE', 'cache'),
-            'endpoint' => env('DYNAMODB_ENDPOINT'),
+            'key'      => '',
+            'secret'   => '',
+            'region'   => 'us-east-1',
+            'table'    => 'cache',
+            'endpoint' => null,
         ],
     ],
 
@@ -75,5 +72,5 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'wetyper'), '_') . '_cache'),
+    'prefix' => 'wetyper_cache',
 ];

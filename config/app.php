@@ -7,7 +7,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'name' => env('APP_NAME', 'WeTyper'),
+    'name' => 'WeTyper',
 
     /*
     |--------------------------------------------------------------------------
@@ -15,7 +15,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => 'production',
 
     /*
     |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -31,9 +31,9 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => 'http://localhost',
 
-    'asset_url' => env('ASSET_URL', null),
+    'asset_url' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -49,7 +49,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    'fallback_locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+    'faker_locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -73,7 +73,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'key' => env('APP_KEY'),
+    'key' => '',
 
     'cipher' => 'AES-256-CBC',
 
@@ -84,8 +84,6 @@ return [
     */
 
     'providers' => [
-
-        Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
@@ -96,23 +94,28 @@ return [
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
         Illuminate\Hashing\HashServiceProvider::class,
         Illuminate\Mail\MailServiceProvider::class,
-        Illuminate\Notifications\NotificationServiceProvider::class,
         Illuminate\Pagination\PaginationServiceProvider::class,
         Illuminate\Pipeline\PipelineServiceProvider::class,
         Illuminate\Queue\QueueServiceProvider::class,
         Illuminate\Redis\RedisServiceProvider::class,
-        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-        Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        WeTyper\Foundation\Http\Provider\RouteServiceProvider::class,
 
-//        App\Providers\AppServiceProvider::class,
-//        App\Providers\AuthServiceProvider::class,
-//        // App\Providers\BroadcastServiceProvider::class,
-//        App\Providers\EventServiceProvider::class,
-//        App\Providers\RouteServiceProvider::class,
+        WeTyper\Album\AlbumServiceProvider::class,
+        WeTyper\Article\ArticleServiceProvider::class,
+        WeTyper\Category\CategoryServiceProvider::class,
+        WeTyper\Issue\IssueServiceProvider::class,
+        WeTyper\Member\MemberServiceProvider::class,
+        WeTyper\Passport\PassportServiceProvider::class,
+        WeTyper\Photo\PhotoServiceProvider::class,
+        WeTyper\Plugin\PluginServiceProvider::class,
+        WeTyper\Registry\RegistryServiceProvider::class,
+        WeTyper\Site\SiteServiceProvider::class,
+        WeTyper\Tag\TagServiceProvider::class,
+        WeTyper\Theme\ThemeServiceProvider::class,
     ],
 
     /*

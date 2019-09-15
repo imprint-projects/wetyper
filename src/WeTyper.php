@@ -27,7 +27,7 @@ final class WeTyper
     protected $app;
 
     /**
-     * Creates a WeTyper instance.
+     * Create a WeTyper instance.
      *
      * @param string $basePath
      * @return \WeTyper\WeTyper
@@ -38,7 +38,7 @@ final class WeTyper
     }
 
     /**
-     * Creates a WeTyper instance.
+     * Create a WeTyper instance.
      *
      * @param string $basePath
      */
@@ -48,14 +48,14 @@ final class WeTyper
     }
 
     /**
-     * Creates an application instance.
+     * Create an application instance.
      *
      * @param string $basePath
      * @return \Illuminate\Contracts\Foundation\Application
      */
     public function createApplication(string $basePath): ApplicationContract
     {
-        $app = new Application($basePath);
+        $app = new Application(__DIR__.'/..', $basePath);
 
         $this->registerBaseBindings($app);
 
@@ -63,7 +63,7 @@ final class WeTyper
     }
 
     /**
-     * Registers all basic bindings into the application.
+     * Register all basic bindings into the application.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
      */
@@ -75,7 +75,7 @@ final class WeTyper
     }
 
     /**
-     * Gets the related application instance.
+     * Get the related application instance.
      *
      * @return \Illuminate\Contracts\Foundation\Application
      */
@@ -85,7 +85,7 @@ final class WeTyper
     }
 
     /**
-     * Handles HTTP request.
+     * Handle HTTP request.
      *
      * @param \Symfony\Component\HttpFoundation\Request|null $request
      * @return int
@@ -98,13 +98,15 @@ final class WeTyper
             $request = $request ?? Request::capture()
         );
 
+        $response->send();
+
         $kernel->terminate($request, $response);
 
         return $response->getStatusCode();
     }
 
     /**
-     * Creates a HTTP kernel for handle requests.
+     * Create a HTTP kernel for handle requests.
      *
      * @return \Illuminate\Contracts\Http\Kernel
      */
@@ -114,7 +116,7 @@ final class WeTyper
     }
 
     /**
-     * Handles console input.
+     * Handle console input.
      *
      * @param \Symfony\Component\Console\Input\InputInterface|null $input
      * @param \Symfony\Component\Console\Output\OutputInterface|null $output
@@ -135,7 +137,7 @@ final class WeTyper
     }
 
     /**
-     * Creates a console kernel to run commands.
+     * Create a console kernel to run commands.
      *
      * @return \Illuminate\Contracts\Console\Kernel
      */

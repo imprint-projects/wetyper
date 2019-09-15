@@ -15,5 +15,5 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'compiled' => storage_path('framework/view'),
+    'compiled' => storage_path('framework/views'),
 ];
