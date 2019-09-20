@@ -18,9 +18,11 @@ class CreateMemberTable extends Migration
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
 
-            $table->bigIncrements('id')->comment('ID');
-            $table->string('email')->comment('');
-            $table->timestamps();
+            $table->bigIncrements('id');
+            $table->string('uri');
+            $table->string('name');
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
         });
     }
 

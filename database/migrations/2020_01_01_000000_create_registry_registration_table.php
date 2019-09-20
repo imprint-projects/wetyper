@@ -22,8 +22,8 @@ class CreateRegistryRegistrationTable extends Migration
             $table->string('module', 50);
             $table->string('key', 150);
             $table->text('value')->nullable();
-            $table->dateTime('created_at')->useCurrent();
-            $table->dateTime('updated_at')->useCurrent();
+            $table->dateTime('created_at');
+            $table->dateTime('updated_at');
 
             $table->unique(['module', 'key'], 'uk_module_key');
         });

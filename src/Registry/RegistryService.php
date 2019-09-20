@@ -2,7 +2,7 @@
 
 namespace WeTyper\Registry;
 
-use Illuminate\Contracts\Cache\Store;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 use WeTyper\Registry\Model\Registration;
@@ -10,21 +10,9 @@ use WeTyper\Registry\Model\Registration;
 class RegistryService implements RegistryServiceInterface
 {
     /**
-     * The cache driver.
-     *
-     * @var \Illuminate\Contracts\Cache\Store
+     * Default registration cache time.
      */
-    protected $cache;
-
-    /**
-     * Create a registry service.
-     *
-     * @param \Illuminate\Contracts\Cache\Store $cache
-     */
-    public function __construct(Store $cache)
-    {
-        $this->cache = $cache;
-    }
+    protected const CACHE_TIME = 600;
 
     /**
      * Put a registration into the registry.
@@ -33,14 +21,15 @@ class RegistryService implements RegistryServiceInterface
      * @param string $key
      * @param mixed $value
      *
-     * @return array
+     * @return bool
      */
-    public function putRegistration(string $module, string $key, $value): array
+    public function putRegistration(string $module, string $key, $value): bool
     {
         DB::beginTransaction();
 
         try {
             $registration = Registration::query()
+                ->select(['module', 'key'])
                 ->firstOrCreate([
                     'module' => $module,
                     'key'    => $key
@@ -48,6 +37,7 @@ class RegistryService implements RegistryServiceInterface
 
             $registration['value'] = $value;
 
+            Cache::put("{$key}:{$module}", $value, static::CACHE_TIME);
 
             DB::commit();
         } catch (Throwable $e) {
@@ -56,20 +46,7 @@ class RegistryService implements RegistryServiceInterface
             throw $e;
         }
 
-
-    }
-
-    /**
-     * Put all given registrations into the registry.
-     *
-     * @param string $module
-     * @param array $registrations
-     *
-     * @return array
-     */
-    public function putRegistrations(string $module, array $registrations): array
-    {
-        // TODO: Implement putRegistrations() method.
+        return true;
     }
 
     /**
@@ -77,25 +54,21 @@ class RegistryService implements RegistryServiceInterface
      *
      * @param string $module
      * @param string $key
-     *
+     * @param null $default
      * @return mixed
      */
-    public function getRegistration(string $module, string $key)
+    public function getRegistration(string $module, string $key, $default = null)
     {
-        // TODO: Implement getRegistration() method.
-    }
+        $value = Cache::remember("{$module}:{$key}", static::CACHE_TIME, function () use ($module, $key) {
+            $registration = Registration::query()
+                ->where('module', $module)
+                ->where('key', $key)
+                ->get(['value']);
 
-    /**
-     * Get all associated registrations based on the given key.
-     *
-     * @param string $module
-     * @param array $keys
-     *
-     * @return array
-     */
-    public function getRegistrations(string $module, array $keys): array
-    {
-        // TODO: Implement getRegistrations() method.
+            return $registration ? $registration['value'] : null;
+        });
+
+        return $value ?? $default;
     }
 
     /**
@@ -108,19 +81,23 @@ class RegistryService implements RegistryServiceInterface
      */
     public function removeRegistration(string $module, string $key): bool
     {
-        // TODO: Implement removeRegistration() method.
-    }
+        DB::beginTransaction();
 
-    /**
-     * Remove all given registrations.
-     *
-     * @param string $module
-     * @param array $keys
-     *
-     * @return bool
-     */
-    public function removeRegistrations(string $module, array $keys): bool
-    {
-        // TODO: Implement removeRegistrations() method.
+        try {
+            Registration::query()
+                ->where('module', $module)
+                ->where('key', $key)
+                ->delete();
+
+            Cache::forget("{$key}:{$module}");
+
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
+
+        return true;
     }
 }
