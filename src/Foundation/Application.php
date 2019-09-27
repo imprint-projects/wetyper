@@ -51,7 +51,7 @@ class Application extends BaseApplication
     /**
      * Get the base path of the WeTyper core directory.
      *
-     * @param string $path Optionally, a path to append to the base path
+     * @param string $path Optionally, a path to append to the core path
      * @return string
      */
     public function corePath($path = '')
@@ -65,6 +65,17 @@ class Application extends BaseApplication
     public function configPath($path = '')
     {
         return $this->corePath.DIRECTORY_SEPARATOR.'config'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+    }
+
+    /**
+     * Get the route path of the route definition directory.
+     *
+     * @param string $path Optionally, a path to append to the route path
+     * @return string
+     */
+    public function routePath($path = '')
+    {
+        return $this->corePath.DIRECTORY_SEPARATOR.'routes'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**

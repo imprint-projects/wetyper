@@ -4,15 +4,13 @@ namespace WeTyper\Foundation\Http\Provider;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use SplFileInfo;
-use Symfony\Component\Finder\Finder;
 
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * This namespace is applied to the controller routes.
+     * The controller namespace for the application.
      *
-     * @var string
+     * @var string|null
      */
     protected $namespace = 'WeTyper\Http\Controller';
 
@@ -21,62 +19,42 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function loadRoutes()
     {
-        $this->registerRoutes();
+        parent::loadRoutes();
+
+        $this->mapContentRoutes();
+
+        $this->mapMemberRoutes();
+
+        $this->mapAdminRoutes();
     }
 
     /**
-     * Register the routes for the application.
+     * Define the routes for the application.
      */
-    protected function registerRoutes()
+    protected function mapContentRoutes(): void
     {
-        $files = $this->getRouteFilesInPath($this->app->corePath('routes'));
-
-        foreach ($files as $file) {
-            Route::namespace($this->namespace)
-                ->prefix($file['prefix'])
-                ->group($file['path']);
-        }
+        Route::namespace($this->namespace)
+            ->group($this->app->routePath('content.php'));
     }
 
     /**
-     * Get all of the route files in the given directory.
-     *
-     * @param string $routePath
-     * @return array
+     * Define the routes for the application.
      */
-    protected function getRouteFilesInPath(string $routePath): array
+    protected function mapMemberRoutes(): void
     {
-        $files = [];
-
-        if (! is_dir($routePath)) {
-            return $files;
-        }
-
-        foreach (Finder::create()->files()->name('*.php')->in($routePath) as $file) {
-            $files[] = [
-                'prefix' => $this->getNestedDirectory($file, $routePath),
-                'path'   => $file->getRealPath(),
-            ];
-        }
-
-        return $files;
+        Route::namespace($this->namespace)
+            ->group($this->app->routePath('member.php'));
     }
 
     /**
-     * Get the route file nesting path.
-     *
-     * @param \SplFileInfo $file
-     * @param string $routePath
-     * @return string
+     * Define the routes for the application.
      */
-    protected function getNestedDirectory(SplFileInfo $file, string $routePath): string
+    protected function mapAdminRoutes(): void
     {
-        $directory = $file->getPath();
+        $prefix = config('app.admin_prefix', 'admin');
 
-        if ($nested = trim(str_replace($routePath, '', $directory), DIRECTORY_SEPARATOR)) {
-            $nested = str_replace(DIRECTORY_SEPARATOR, '/', $nested);
-        }
-
-        return $nested;
+        Route::namespace($this->namespace)
+            ->prefix($prefix)
+            ->group($this->app->routePath('admin.php'));
     }
 }

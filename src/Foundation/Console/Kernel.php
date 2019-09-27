@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bootstrap\RegisterFacades;
 use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Bootstrap\SetRequestForConsole;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use WeTyper\Console\Command\ManageCommand;
 use WeTyper\Foundation\Bootstrap\LoadConfiguration;
 use Illuminate\Console\Application as Artisan;
 
@@ -29,30 +30,20 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
-     * The console commands provided by WeTyper.
+     * The Artisan commands provided by the application.
      *
      * @var array
      */
     protected $commands = [
-        //
+        ManageCommand::class,
     ];
 
     /**
-     * Define the application's command schedule.
-     *
-     * @param \Illuminate\Console\Scheduling\Schedule $schedule
+     * @inheritDoc
      */
-    protected function schedule(Schedule $schedule): void
+    protected function schedule(Schedule $schedule)
     {
-
-    }
-
-    /**
-     * Register the commands for the application.
-     */
-    protected function commands(): void
-    {
-        $this->load(__DIR__ . '/Commands');
+        //
     }
 
     /**

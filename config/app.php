@@ -35,6 +35,8 @@ return [
 
     'asset_url' => null,
 
+    'admin_prefix' => 'admin',
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
